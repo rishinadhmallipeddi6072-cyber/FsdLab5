@@ -1,26 +1,28 @@
 package org.example.servlet;
 
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import java.io.IOException;
 
 @WebServlet("/logout")
-public class logout extends HttpServlet{
+public class logout extends HttpServlet {
+
     @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse resp){
-        HttpSession session= req.getSession(false);
-        if(session!=null){
+    protected void doGet(HttpServletRequest req,
+                         HttpServletResponse resp)
+            throws ServletException, IOException {
+
+        HttpSession session = req.getSession(false);
+
+        if (session != null) {
             session.invalidate();
         }
-        try {
-            resp.sendRedirect("login.html");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
+        resp.sendRedirect(req.getContextPath() + "/login.html");
+    }
 }
